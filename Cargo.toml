@@ -1,5 +1,5 @@
 [package]
-name = "calculator"
+name = "ebon-calculator"
 version = "0.1.0"
 authors = ["Evan Maddock <maddock.evan@vivaldi.net>"]
 edition = "2018"

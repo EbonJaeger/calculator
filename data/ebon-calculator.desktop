@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Calculator
+Comment=Simple calculator for arithmetic calculations
+Keywords=calculation;arithmetic;financial;
+Exec=ebon-calculator
+Icon=accessories-calculator
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Utilities;Calculator;
