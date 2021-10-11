@@ -1,0 +1,38 @@
+Theme (
+    styles: {
+        "input": (
+            // based on body style the of default_theme
+            base: "body",
+            properties: {
+                "font_size": "$FONT_SIZE_24",
+            }
+        ),
+        "result": (
+            // based on body style the of default_theme
+            base: "body",
+            properties: {
+                "font_size": "$FONT_SIZE_36",
+            }
+        ),
+         "button_calculator": ( 
+            // based on button style the of default_theme
+            base: "button",
+            properties: {
+                "font_size": "$FONT_SIZE_24",
+                "min_width": 65,
+                "height": 55,
+                "border_radius": 1,
+            },
+        ),
+        "button_calculator_primary": (
+            // based on button_primary style the of default_theme
+            base: "button_primary",
+            properties: {
+                "font_size": "$FONT_SIZE_24",
+                "min_width": 65,
+                "height": 55,
+                "border_radius": 1,
+            },
+        ),
+    }
+)
