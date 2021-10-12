@@ -34,5 +34,11 @@ Theme (
                 "border_radius": 1,
             },
         ),
+        "button_calculator_digit": (
+            base: "button_calculator",
+            properties: {
+                "background": "#ffffff",
+            },
+        ),
     }
 )

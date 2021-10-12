@@ -16,7 +16,7 @@ fn generate_digit_button(
     row: usize,
 ) -> Entity {
     let style = if primary {
-        "button_calculator_primary"
+        "button_calculator_digit"
     } else {
         "button_calculator"
     };
@@ -148,23 +148,23 @@ impl Template for MainView {
                                 )
                                 .child(generate_operator_button(ctx, id, '÷', true, 6, 1, 0))
                                 // row 2
-                                .child(generate_digit_button(ctx, id, '7', false, 0, 1, 2))
-                                .child(generate_digit_button(ctx, id, '8', false, 2, 1, 2))
-                                .child(generate_digit_button(ctx, id, '9', false, 4, 1, 2))
+                                .child(generate_digit_button(ctx, id, '7', true, 0, 1, 2))
+                                .child(generate_digit_button(ctx, id, '8', true, 2, 1, 2))
+                                .child(generate_digit_button(ctx, id, '9', true, 4, 1, 2))
                                 .child(generate_operator_button(ctx, id, 'x', true, 6, 1, 2))
                                 // row 4
-                                .child(generate_digit_button(ctx, id, '4', false, 0, 1, 4))
-                                .child(generate_digit_button(ctx, id, '5', false, 2, 1, 4))
-                                .child(generate_digit_button(ctx, id, '6', false, 4, 1, 4))
+                                .child(generate_digit_button(ctx, id, '4', true, 0, 1, 4))
+                                .child(generate_digit_button(ctx, id, '5', true, 2, 1, 4))
+                                .child(generate_digit_button(ctx, id, '6', true, 4, 1, 4))
                                 .child(generate_operator_button(ctx, id, '−', true, 6, 1, 4))
                                 // row 6
-                                .child(generate_digit_button(ctx, id, '1', false, 0, 1, 6))
-                                .child(generate_digit_button(ctx, id, '2', false, 2, 1, 6))
-                                .child(generate_digit_button(ctx, id, '3', false, 4, 1, 6))
+                                .child(generate_digit_button(ctx, id, '1', true, 0, 1, 6))
+                                .child(generate_digit_button(ctx, id, '2', true, 2, 1, 6))
+                                .child(generate_digit_button(ctx, id, '3', true, 4, 1, 6))
                                 .child(generate_operator_button(ctx, id, '+', true, 6, 1, 6))
                                 // row 8
                                 .child(generate_digit_button(ctx, id, '±', false, 0, 1, 8))
-                                .child(generate_digit_button(ctx, id, '0', false, 2, 1, 8))
+                                .child(generate_digit_button(ctx, id, '0', true, 2, 1, 8))
                                 .child(generate_operator_button(ctx, id, '.', false, 4, 1, 8))
                                 .child(generate_operator_button(ctx, id, '=', true, 6, 1, 8))
                                 .build(ctx),
