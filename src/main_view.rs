@@ -101,7 +101,7 @@ impl Template for MainView {
                                             TextBlock::new()
                                                 .width(0)
                                                 .height(24)
-                                                .text("")
+                                                .text("0")
                                                 .style("input")
                                                 .id("input")
                                                 .v_align("start")

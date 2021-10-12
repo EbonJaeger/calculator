@@ -17,7 +17,12 @@ pub struct MainState {
 }
 
 impl State for MainState {
-    fn messages(&mut self, mut messages: MessageReader, _registry: &mut Registry, ctx: &mut Context) {
+    fn messages(
+        &mut self,
+        mut messages: MessageReader,
+        _registry: &mut Registry,
+        ctx: &mut Context,
+    ) {
         for message in messages.read::<Action>() {
             match message {
                 Action::Digit(digit) => match digit {
@@ -32,14 +37,23 @@ impl State for MainState {
                         if let Some(last) = self.input.chars().last() {
                             if last == '-' {
                                 self.input.pop();
-                                TextBlock::text_mut(&mut ctx.child("input")).pop();
+                                if self.input.is_empty() {
+                                    TextBlock::text_set(&mut ctx.child("input"), "0");
+                                } else {
+                                    TextBlock::text_mut(&mut ctx.child("input")).pop();
+                                }
                             } else {
                                 self.input.push('-');
                                 TextBlock::text_mut(&mut ctx.child("input")).push('-');
                             }
                         } else {
+                            let was_empty = self.input.is_empty();
                             self.input.push('-');
-                            TextBlock::text_mut(&mut ctx.child("input")).push('-');
+                            if was_empty {
+                                TextBlock::text_set(&mut ctx.child("input"), "-");
+                            } else {
+                                TextBlock::text_mut(&mut ctx.child("input")).push('-');
+                            }
                         }
                     }
                     _ => {
@@ -47,8 +61,15 @@ impl State for MainState {
                             self.clear_all(ctx);
                         }
 
+                        let was_empty = self.input.is_empty();
+
                         self.input.push(digit);
-                        TextBlock::text_mut(&mut ctx.child("input")).push(digit);
+
+                        if was_empty {
+                            TextBlock::text_set(&mut ctx.child("input"), self.input.clone());
+                        } else {
+                            TextBlock::text_mut(&mut ctx.child("input")).push(digit);
+                        }
                     }
                 },
                 Action::Operator(operator) => match operator {
@@ -56,14 +77,20 @@ impl State for MainState {
                         self.clear_all(ctx);
                     }
                     '\u{232B}' => {
+                        if self.input.is_empty() {
+                            return;
+                        }
+
                         self.input.pop();
                         self.result.clear();
                         MainView::text_mut(&mut ctx.widget()).clear();
                         TextBlock::text_mut(&mut ctx.child("input")).pop();
                     }
                     '=' => {
-                        // Calculate the result, and set the display text
-                        self.calculate(ctx);
+                        if !self.input.is_empty() {
+                            // Calculate the result, and set the display text
+                            self.calculate(ctx);
+                        }
                     }
                     _ => {
                         if self.input.is_empty() {
@@ -92,7 +119,7 @@ impl MainState {
         self.input.clear();
         self.result.clear();
         MainView::text_mut(&mut ctx.widget()).clear();
-        TextBlock::text_mut(&mut ctx.child("input")).clear();
+        TextBlock::text_set(&mut ctx.child("input"), "0");
     }
 
     /// Computes the result of the current equation using Redox OS's calc
