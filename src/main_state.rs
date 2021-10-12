@@ -17,22 +17,40 @@ pub struct MainState {
 }
 
 impl State for MainState {
-    fn messages(
-        &mut self,
-        mut messages: MessageReader,
-        _registry: &mut Registry,
-        ctx: &mut Context,
-    ) {
+    fn messages(&mut self, mut messages: MessageReader, _registry: &mut Registry, ctx: &mut Context) {
         for message in messages.read::<Action>() {
             match message {
-                Action::Digit(digit) => {
-                    if !self.result.is_empty() {
-                        self.clear_all(ctx);
-                    }
+                Action::Digit(digit) => match digit {
+                    '±' => {
+                        if !self.result.is_empty() {
+                            self.clear_all(ctx);
+                        }
 
-                    self.input.push(digit);
-                    TextBlock::text_mut(&mut ctx.child("input")).push(digit);
-                }
+                        // TODO: It would be great to figure out a better way to do this.
+                        // It works as-is for addition, or as long as the negated number is the very first thing,
+                        // but it breaks on calculation if it's following another operator.
+                        if let Some(last) = self.input.chars().last() {
+                            if last == '-' {
+                                self.input.pop();
+                                TextBlock::text_mut(&mut ctx.child("input")).pop();
+                            } else {
+                                self.input.push('-');
+                                TextBlock::text_mut(&mut ctx.child("input")).push('-');
+                            }
+                        } else {
+                            self.input.push('-');
+                            TextBlock::text_mut(&mut ctx.child("input")).push('-');
+                        }
+                    }
+                    _ => {
+                        if !self.result.is_empty() {
+                            self.clear_all(ctx);
+                        }
+
+                        self.input.push(digit);
+                        TextBlock::text_mut(&mut ctx.child("input")).push(digit);
+                    }
+                },
                 Action::Operator(operator) => match operator {
                     'C' => {
                         self.clear_all(ctx);
